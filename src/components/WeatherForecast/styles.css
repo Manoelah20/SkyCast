@@ -1,0 +1,53 @@
+.forecast-container {
+  margin-top: 30px;
+}
+
+.forecast-container h3 {
+  color: #333;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.forecast-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 15px;
+}
+
+.forecast-item {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.forecast-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.forecast-item p {
+  margin: 5px 0;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.forecast-item p:first-child {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #1e3c72;
+}
+
+.forecast-item img {
+  width: 50px;
+  height: 50px;
+  margin: 5px 0;
+}
+
+.forecast-item p:nth-child(3) {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1e3c72;
+}

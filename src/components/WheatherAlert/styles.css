@@ -1,0 +1,28 @@
+.weather-alerts {
+    margin: 1rem 0;
+  }
+  
+  .alert {
+    padding: 0.8rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .alert.rain {
+    background-color: #e3f2fd;
+    color: #1565c0;
+  }
+  
+  .alert.fire {
+    background-color: #ffebee;
+    color: #c62828;
+  }
+  
+  .alert.snow {
+    background-color: #e3f2fd;
+    color: #0277bd;
+  }
