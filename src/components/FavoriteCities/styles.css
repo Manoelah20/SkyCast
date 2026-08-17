@@ -1,65 +1,65 @@
 .favorites-container {
-  margin-bottom: 20px;
+  background: white;
+  border-radius: 16px;
   padding: 20px;
-  background: #f5f7fa;
-  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
 .favorites-container h4 {
   color: #333;
   font-size: 1.1rem;
-  margin-bottom: 15px;
+  margin-bottom: 16px;
   font-weight: 600;
 }
 
-.favorites-container p {
-  color: #666;
+.favorites-empty {
+  color: #888;
   font-size: 0.9rem;
-  margin: 0;
 }
 
-.favorites-container ul {
+.favorites-list {
   list-style: none;
-  padding: 0;
-  margin: 0;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  padding: 0;
+  margin: 0;
 }
 
-.favorites-container li {
+.favorites-item {
   display: flex;
-  gap: 5px;
+  align-items: stretch;
+  gap: 4px;
 }
 
-.favorites-container li button {
+.favorites-select {
   padding: 8px 15px;
-  background: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 20px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: all 0.2s ease;
-}
-
-.favorites-container li button:first-child {
   background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
   color: white;
   border: none;
+  border-radius: 20px 0 0 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.favorites-container li button:first-child:hover {
+.favorites-select:hover {
   transform: translateY(-2px);
   box-shadow: 0 3px 10px rgba(30, 60, 114, 0.3);
 }
 
-.favorites-container li button:last-child {
+.favorites-remove {
   color: #666;
-  font-size: 1.2rem;
-  padding: 8px 12px;
+  background: #f0f0f0;
+  border: none;
+  border-radius: 0 20px 20px 0;
+  font-size: 1.1rem;
+  padding: 0 10px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
-.favorites-container li button:last-child:hover {
+.favorites-remove:hover {
   background: #ffebee;
   color: #c62828;
 }

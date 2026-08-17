@@ -1,0 +1,42 @@
+.weather-alerts {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.weather-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #fff8e1;
+  color: #795548;
+  border: 1px solid #ffe082;
+  border-left: 5px solid #f9a825;
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+.weather-alert svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.weather-alert__body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.weather-alert__body strong {
+  font-size: 1rem;
+}
+
+.weather-alert__body p {
+  font-size: 0.9rem;
+}
+
+.weather-alert__body small {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
