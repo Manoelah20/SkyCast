@@ -97,3 +97,75 @@ Feito por Manoelah em 2025 - Todos os direitos reservados
 ## Fonte de Dados
 
 Dados meteorológicos fornecidos por OpenWeatherMap
+
+## Como Fazer Upload para GitHub
+
+### Passo 1: Criar Repositório no GitHub
+1. Acesse https://github.com
+2. Clique em "+" no canto superior direito
+3. Selecione "New repository"
+4. Nomeie o repositório (ex: skycast-app)
+5. Torne público ou privado conforme preferência
+6. Clique em "Create repository"
+
+### Passo 2: Conectar Repositório Local ao GitHub
+Execute os seguintes comandos no terminal:
+
+```bash
+git remote add origin https://github.com/SEU_USUARIO/skycast-app.git
+git branch -M main
+git push -u origin main
+```
+
+Substitua `SEU_USUARIO` pelo seu nome de usuário do GitHub.
+
+### Passo 3: Atualizar Código
+Para fazer alterações e atualizar no GitHub:
+
+```bash
+git add .
+git commit -m "Sua mensagem de commit"
+git push
+```
+
+## Como Deploy no Vercel
+
+### Opção 1: Deploy via GitHub (Recomendado)
+1. Acesse https://vercel.com
+2. Faça login com sua conta GitHub
+3. Clique em "Add New Project"
+4. Selecione o repositório skycast-app do GitHub
+5. Configure as variáveis de ambiente:
+   - Nome: `REACT_APP_WEATHER_API_KEY`
+   - Valor: sua chave da OpenWeatherMap
+6. Clique em "Deploy"
+7. Aguarde o deploy completar
+
+### Opção 2: Deploy via Vercel CLI
+Instale o Vercel CLI:
+
+```bash
+npm install -g vercel
+```
+
+Execute na pasta do projeto:
+
+```bash
+vercel
+```
+
+Siga as instruções no terminal. Quando perguntado sobre variáveis de ambiente, adicione:
+- `REACT_APP_WEATHER_API_KEY` = sua chave da OpenWeatherMap
+
+### Atualizar Deploy no Vercel
+Após fazer alterações e commitar no GitHub, o Vercel fará deploy automático. Se usar CLI:
+
+```bash
+vercel --prod
+```
+
+### URL do App
+Após o deploy, o Vercel fornecerá uma URL como:
+- `https://skycast-app.vercel.app`
+
+Você pode personalizar o domínio nas configurações do projeto Vercel.
