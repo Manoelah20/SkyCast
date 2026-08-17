@@ -18,10 +18,12 @@ const App = () => {
     alerts,
     status,
     error,
+    geoNotice,
     lastUpdated,
     searchByCity,
     refresh,
   } = useWeather();
+
   const { addFavorite, removeFavorite, isFavorite } = useFavorites();
 
   const cityName = weather?.name ?? '';
@@ -37,78 +39,85 @@ const App = () => {
   };
 
   return (
-    <main className="app">
-      <header className="app__header">
-        <h1 className="app__title">Skycast</h1>
-        <p className="app__description">
-          Dashboard responsivo de previsão do tempo com dados em tempo real
-        </p>
-      </header>
+    <>
+      <a href="#main-content" className="skip-link">
+        Pular para o conteúdo
+      </a>
+      <div className="app" aria-live="polite">
+        <header className="app__header">
+          <h1 className="app__title">Skycast</h1>
+          <p className="app__description">
+            Dashboard responsivo de previsão do tempo com dados em tempo real
+          </p>
+        </header>
 
-      <SearchBar onSearch={searchByCity} loading={status === 'loading'} />
+        <SearchBar onSearch={searchByCity} loading={status === 'loading'} />
 
-      {status === 'loading' && !weather && <Loading />}
+        {geoNotice && <p className="app__geo-notice">{geoNotice}</p>}
 
-      {status === 'error' && !weather && (
-        <ErrorMessage message={error ?? 'Erro inesperado.'} onRetry={refresh} />
-      )}
+        {status === 'loading' && !weather && <Loading />}
 
-      {weather && (
-        <div className="app__layout">
-          <section className="app__main">
-            <div className="app__toolbar">
-              <button
-                className="app__favorite"
-                onClick={handleToggleFavorite}
-                aria-pressed={isCurrentFavorite}
-                aria-label={
-                  isCurrentFavorite
-                    ? `Remover ${cityName} dos favoritos`
-                    : `Adicionar ${cityName} aos favoritos`
-                }
-              >
-                {isCurrentFavorite ? <FaStar /> : <FaRegStar />}
-                {isCurrentFavorite ? 'Favoritada' : 'Favoritar'}
-              </button>
+        {status === 'error' && !weather && (
+          <ErrorMessage message={error ?? 'Erro inesperado.'} onRetry={refresh} />
+        )}
 
-              <div className="app__meta">
+        {weather && (
+          <div id="main-content" className="app__layout">
+            <section className="app__main">
+              <div className="app__toolbar">
                 <button
-                  className="app__refresh"
-                  onClick={refresh}
-                  disabled={status === 'loading'}
-                  aria-label="Atualizar dados do clima"
-                  title="Atualizar"
+                  className="app__favorite"
+                  onClick={handleToggleFavorite}
+                  aria-pressed={isCurrentFavorite}
+                  aria-label={
+                    isCurrentFavorite
+                      ? `Remover ${cityName} dos favoritos`
+                      : `Adicionar ${cityName} aos favoritos`
+                  }
                 >
-                  <FaSyncAlt className={status === 'loading' ? 'spinning' : ''} />
+                  {isCurrentFavorite ? <FaStar /> : <FaRegStar />}
+                  {isCurrentFavorite ? 'Favoritada' : 'Favoritar'}
                 </button>
-                {lastUpdated && (
-                  <span className="app__updated">
-                    Atualizado às {formatTime(lastUpdated)}
-                  </span>
-                )}
+
+                <div className="app__meta">
+                  <button
+                    className="app__refresh"
+                    onClick={refresh}
+                    disabled={status === 'loading'}
+                    aria-label="Atualizar dados do clima"
+                    title="Atualizar"
+                  >
+                    <FaSyncAlt className={status === 'loading' ? 'spinning' : ''} />
+                  </button>
+                  {lastUpdated && (
+                    <span className="app__updated">
+                      Atualizado às {formatTime(lastUpdated)}
+                    </span>
+                  )}
+                </div>
               </div>
-            </div>
 
-            {status === 'error' && weather && (
-              <ErrorMessage message={error ?? 'Erro ao atualizar.'} />
-            )}
+              {status === 'error' && weather && (
+                <ErrorMessage message={error ?? 'Erro ao atualizar.'} />
+              )}
 
-            <WeatherCard data={weather} />
-            {alerts.length > 0 && <WeatherAlert alerts={alerts} />}
-            {forecast && <WeatherForecast forecast={forecast} />}
-          </section>
+              <WeatherCard data={weather} />
+              {alerts.length > 0 && <WeatherAlert alerts={alerts} />}
+              {forecast && <WeatherForecast forecast={forecast} />}
+            </section>
 
-          <aside className="app__sidebar">
-            <FavoriteCities onSelect={searchByCity} />
-          </aside>
-        </div>
-      )}
+            <aside className="app__sidebar">
+              <FavoriteCities onSelect={searchByCity} />
+            </aside>
+          </div>
+        )}
 
-      <footer className="app__footer">
-        <p>Feito por Manoelah em 2025 - Todos os direitos reservados</p>
-        <p className="app__source">Dados fornecidos por OpenWeatherMap</p>
-      </footer>
-    </main>
+        <footer className="app__footer">
+          <p>Feito por Manoelah em 2025 - Todos os direitos reservados</p>
+          <p className="app__source">Dados fornecidos por OpenWeatherMap</p>
+        </footer>
+      </div>
+    </>
   );
 };
 

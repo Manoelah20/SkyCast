@@ -1,0 +1,17 @@
+{
+  "name": "Skycast - Previsão do Tempo",
+  "short_name": "Skycast",
+  "description": "Dashboard responsivo de previsão do tempo.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1e3c72",
+  "theme_color": "#1e3c72",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64",
+      "type": "image/x-icon"
+    }
+  ]
+}

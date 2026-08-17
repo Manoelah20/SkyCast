@@ -5,8 +5,16 @@ import type {
   WeatherForecast,
 } from '../types/weather';
 
-const API_KEY = import.meta.env.VITE_WEATHER_API_KEY as string;
+const API_KEY = import.meta.env.VITE_WEATHER_API_KEY as string | undefined;
 const BASE_URL = 'https://api.openweathermap.org/data/2.5';
+
+const assertApiKey = (): void => {
+  if (!API_KEY || API_KEY.trim() === '') {
+    throw new WeatherError(
+      'Chave da API não configurada. Adicione VITE_WEATHER_API_KEY no arquivo .env.'
+    );
+  }
+};
 
 const DEFAULT_PARAMS = {
   appid: API_KEY,
@@ -35,6 +43,7 @@ const handleError = (error: unknown): never => {
 };
 
 export const getWeatherByCity = async (city: string): Promise<CurrentWeather> => {
+  assertApiKey();
   try {
     const { data } = await axios.get<CurrentWeather>(`${BASE_URL}/weather`, {
       params: { ...DEFAULT_PARAMS, q: city.trim() },
@@ -49,6 +58,7 @@ export const getWeatherByCoords = async (
   lat: number,
   lon: number
 ): Promise<CurrentWeather> => {
+  assertApiKey();
   try {
     const { data } = await axios.get<CurrentWeather>(`${BASE_URL}/weather`, {
       params: { ...DEFAULT_PARAMS, lat, lon },
@@ -63,6 +73,7 @@ export const getWeatherForecast = async (
   lat: number,
   lon: number
 ): Promise<WeatherForecast> => {
+  assertApiKey();
   try {
     const { data } = await axios.get<WeatherForecast>(`${BASE_URL}/forecast`, {
       params: { ...DEFAULT_PARAMS, lat, lon },
@@ -77,6 +88,7 @@ export const getWeatherAlerts = async (
   lat: number,
   lon: number
 ): Promise<WeatherAlert[]> => {
+  assertApiKey();
   try {
     const { data } = await axios.get<{ alerts?: WeatherAlert[] }>(
       'https://api.openweathermap.org/data/3.0/onecall',

@@ -6,7 +6,7 @@ import {
   getWeatherForecast,
   WeatherError,
 } from '../services/weatherApi';
-import { getCurrentPosition } from '../services/geolocation';
+import { getCurrentPosition, GeolocationError } from '../services/geolocation';
 import type {
   CurrentWeather,
   WeatherAlert,
@@ -21,6 +21,7 @@ export interface UseWeatherReturn {
   alerts: WeatherAlert[];
   status: WeatherStatus;
   error: string | null;
+  geoNotice: string | null;
   lastUpdated: Date | null;
   searchByCity: (city: string) => Promise<void>;
   refresh: () => Promise<void>;
@@ -34,6 +35,7 @@ export const useWeather = (): UseWeatherReturn => {
   const [alerts, setAlerts] = useState<WeatherAlert[]>([]);
   const [status, setStatus] = useState<WeatherStatus>('idle');
   const [error, setError] = useState<string | null>(null);
+  const [geoNotice, setGeoNotice] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [lastCoords, setLastCoords] = useState<{
     lat: number;
@@ -94,8 +96,12 @@ export const useWeather = (): UseWeatherReturn => {
       setStatus('loading');
       try {
         const coords = await getCurrentPosition();
+        setGeoNotice(null);
         await loadByCoords(coords.latitude, coords.longitude);
-      } catch {
+      } catch (err) {
+        if (err instanceof GeolocationError) {
+          setGeoNotice(err.message);
+        }
         await searchByCity(FALLBACK_CITY);
       }
     };
@@ -108,6 +114,7 @@ export const useWeather = (): UseWeatherReturn => {
     alerts,
     status,
     error,
+    geoNotice,
     lastUpdated,
     searchByCity,
     refresh,

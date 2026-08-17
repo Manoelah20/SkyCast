@@ -90,10 +90,12 @@ src/
 
 ## Decisões técnicas
 
-- **Vite em vez de Create React App**: build mais rápido, configuração explícita e primeiro-class TS.
+- **Vite em vez de Create React App**: o projeto começou como Create React App e foi **migrado para Vite** (build ~1.5s, config explícita e TypeScript de primeira classe).
 - **TypeScript strict**: maior segurança de tipos desde a camada de API até os componentes.
 - **Hooks de domínio** (`useWeather`): isola a lógica de dados do componente, facilitando testes e reuso.
 - **Camada de serviço tipada**: respostas da OpenWeather são modeladas em `types/weather.ts`.
+- **Geolocalização com erros tratados**: `GeolocationError` normaliza os códigos (permissão negada, indisponível, timeout) em mensagens claras; o app continua exibindo uma cidade padrão e mostra um aviso ao usuário.
+- **Favoritos persistentes**: cidades favoritas e busca padrão salvas em `localStorage`.
 - **Mensagens de erro em PT-BR** e erros normalizados em `WeatherError` para feedback consistente.
 - **Testes orientados a comportamento**: componentes (render + interação), serviços (axios mockado) e hooks (renderHook).
 
@@ -129,8 +131,13 @@ Foram escritos testes para:
 
 - **SearchBar** — submissão, validação de vazio e estado de loading
 - **WeatherCard** — renderização de dados e acessibilidade
+- **WeatherForecast** — agrupamento diário e renderização
+- **FavoriteCities** — seleção, remoção e estado vazio
+- **WeatherAlert** — exibição de alertas
+- **ErrorMessage** — mensagem e ação de retry
 - **useWeather** — carregamento, fallback de geolocalização e estados de erro
 - **weatherApi** — chamadas corretas e tratamento de erros HTTP
+- **App** — integração dos componentes principais
 
 ```bash
 npm test
