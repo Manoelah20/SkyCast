@@ -42,19 +42,30 @@ export const useWeather = (): UseWeatherReturn => {
     lon: number;
   } | null>(null);
 
+  const loadAdditionalWeatherData = useCallback(
+    async (lat: number, lon: number) => {
+      const [forecastData, alertData] = await Promise.all([
+        getWeatherForecast(lat, lon),
+        getWeatherAlerts(lat, lon),
+      ]);
+
+      setForecast(forecastData);
+      setAlerts(alertData);
+    },
+    []
+  );
+
   const loadByCoords = useCallback(
     async (lat: number, lon: number) => {
       setStatus('loading');
       setError(null);
+
       try {
-        const [current, forecastData, alertData] = await Promise.all([
-          getWeatherByCoords(lat, lon),
-          getWeatherForecast(lat, lon),
-          getWeatherAlerts(lat, lon),
-        ]);
+        const current = await getWeatherByCoords(lat, lon);
+
+        await loadAdditionalWeatherData(lat, lon);
+
         setWeather(current);
-        setForecast(forecastData);
-        setAlerts(alertData);
         setLastCoords({ lat, lon });
         setLastUpdated(new Date());
         setStatus('success');
@@ -63,26 +74,34 @@ export const useWeather = (): UseWeatherReturn => {
         setStatus('error');
       }
     },
-    []
+    [loadAdditionalWeatherData]
   );
 
   const searchByCity = useCallback(
     async (city: string) => {
       setStatus('loading');
       setError(null);
+
       try {
         const current = await getWeatherByCity(city);
+        const { lat, lon } = current.coord;
+
+        await loadAdditionalWeatherData(lat, lon);
+
         setWeather(current);
+        setLastCoords({ lat, lon });
         setLastUpdated(new Date());
-        await loadByCoords(current.coord.lat, current.coord.lon);
+        setStatus('success');
       } catch (err) {
         setError(
-          err instanceof WeatherError ? err.message : 'Cidade não encontrada.'
+          err instanceof WeatherError
+            ? err.message
+            : 'Cidade não encontrada.'
         );
         setStatus('error');
       }
     },
-    [loadByCoords]
+    [loadAdditionalWeatherData]
   );
 
   const refresh = useCallback(async () => {
@@ -94,17 +113,21 @@ export const useWeather = (): UseWeatherReturn => {
   useEffect(() => {
     const fetchInitial = async () => {
       setStatus('loading');
+
       try {
         const coords = await getCurrentPosition();
         setGeoNotice(null);
+
         await loadByCoords(coords.latitude, coords.longitude);
       } catch (err) {
         if (err instanceof GeolocationError) {
           setGeoNotice(err.message);
         }
+
         await searchByCity(FALLBACK_CITY);
       }
     };
+
     fetchInitial();
   }, [loadByCoords, searchByCity]);
 
