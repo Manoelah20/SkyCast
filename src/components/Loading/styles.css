@@ -1,14 +1,18 @@
-/* src/components/Loading/styles.css */
 .loading-overlay {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    gap: 20px;
-  }
-  
-  .loading-overlay p {
-    color: #4fa94d;
-    font-size: 1.2rem;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  gap: 20px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  padding: 40px;
+}
+
+.loading-overlay p {
+  color: #4fa94d;
+  font-size: 1.2rem;
+  text-align: center;
+}
